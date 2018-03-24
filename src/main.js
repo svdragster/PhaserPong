@@ -59,24 +59,35 @@ function create () {
 function update () {
     var cursors = this.input.keyboard.createCursorKeys();
     if (cursors.up.isDown) {
-        bar.velY = -8;
+        bar.velY = -5;
     } else if (cursors.down.isDown) {
-        bar.velY = 8;
+        bar.velY = 5;
     } else {
         bar.velY *= 0.6;
     }
 
     bar.y += bar.velY;
+    if (bar.y > config.height - bar.height/2) {
+        bar.y = config.height - bar.height/2;
+    } else if (bar.y < 0 + bar.height/2) {
+        bar.y = 0 + bar.height/2;
+    }
     bar.refreshBody();
 
 
     scoreText.setText((ball.y - enemy.y));
 
     if (enemy.y < ball.y) {
-        enemy.y += Math.min(3.5, ball.y - enemy.y);
+        enemy.y += Math.min(4, ball.y - enemy.y);
+        if (enemy.y > config.height - enemy.height/2) {
+            enemy.y = config.height - enemy.height/2;
+        }
         enemy.refreshBody();
     } else {
-        enemy.y -= Math.min(3.5, enemy.y - ball.y);
+        enemy.y -= Math.min(4, enemy.y - ball.y);
+        if (enemy.y < 0 + enemy.height/2) {
+            enemy.y = 0 + enemy.height/2;
+        }
         enemy.refreshBody();
     }
 
